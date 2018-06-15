@@ -1,9 +1,35 @@
+
+
+
+var dataset = [10, 20, 30, 40, 50];
+
 var el = d3.selectAll('body')
+    .selectAll('p')
+    .data(dataset)
+    .enter()
     .append('p')
-    // .attr('class', 'foo')
+    .text(function(d){
+        return 'This paragraph is binded tothe number ' + d;
+    })
+    // .append('p')
+    .attr('class', function(d){
+        if (d>25) {
+            return 'foo';
+        } else {
+            return null;
+        }
+    })
     // .attr('class', 'bar')
-    .text('Hello World!')
-    .classed('foo', true)
-    .classed('bar', true)
-    .style('color', 'blue');
+    // .text('Hello World!')
+    // .classed('foo', true)
+    .classed('bar', function(d){
+        return d < 25;
+    })
+    .style('color', function(d){
+        if (d>25) {
+            return 'red';
+        } else {
+            return 'blue';
+        }
+    });
 console.log(el);
