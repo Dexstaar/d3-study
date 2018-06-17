@@ -10,6 +10,7 @@ var data            =   [
 ];
 var chart_width     =   800;
 var chart_height    =   400;
+var padding = 50;
 
 // Create SVG Element
 var svg = d3.select('#chart')
@@ -17,16 +18,35 @@ var svg = d3.select('#chart')
     .attr('width', chart_width)
     .attr('height', chart_height);
 
+// Create Scales
+var x_scale = d3.scaleLinear()
+    .domain([0, d3.max(data, function(d){
+        return d[0];
+    })])
+    .range([padding, chart_width-padding * 2]);
+
+var y_scale = d3.scaleLinear()
+    .domain([0, d3.max(data, function(d){
+        return d[1];
+    })])
+    .range([chart_height - padding, padding]);
+
+var r_scale = d3.scaleLinear()
+    .domain([0, d3.max(data, function(d){
+        return d[1];
+    })])
+    .range([5, 30]);
+
 // Create Circles
 svg.selectAll('circle')
     .data(data)
     .enter()
     .append('circle')
     .attr('cx', function(d){
-        return d[0];
+        return x_scale(d[0]);
     })
     .attr('cy', function(d){
-        return d[1];
+        return y_scale(d[1]);
     })
     .attr('r', function(d){
         return d[1]/10;
@@ -42,8 +62,8 @@ svg.selectAll('text')
        return d.join(',');
     })
     .attr('x', function(d) {
-        return d[0];
+        return x_scale(d[0]);
     })
     .attr('y', function(d) {
-        return d[1];
+        return y_scale(d[1]);
     });
