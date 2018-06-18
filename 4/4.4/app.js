@@ -25,7 +25,7 @@ var data = [
     { date: '07/10/2017', num: 27 },
 ];
 
-var time_parse = d3.timeParse('%m/%d/&Y');
+var time_parse = d3.timeParse('%m/%d/%Y');
 var time_format = d3.timeFormat('%b %e');
 
 // Loop through each date
