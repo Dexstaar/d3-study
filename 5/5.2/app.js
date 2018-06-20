@@ -57,3 +57,41 @@ svg.selectAll( 'text' )
     .attr( 'font-size', 14 )
     .attr( 'fill', '#fff' )
     .attr( 'text-anchor', 'middle' );
+
+// Events
+d3.select('button').on('click', function() {
+    data.reverse();
+
+    svg.selectAll('rect')
+        .data(data)
+        .transition()
+        .delay(function(d, i) {
+            return i / data.length * 1000;
+        })
+        .duration(1000)
+        .ease(d3.easeElasticOut)
+        .attr( 'y', function(d) {
+            return chart_height - y_scale(d);
+        })
+        .attr( 'height', function(d) {
+            return y_scale(d);
+        });
+
+    svg.selectAll( 'text' )
+        .data(data)
+        .transition()
+        .delay(function(d, i) {
+            return i / data.length * 1000;
+        })
+        .duration(1000)
+        .ease(d3.easeElasticOut)
+        .text(function( d ){
+            return d;
+        })
+        .attr( 'x', function( d, i ){
+            return x_scale(i) + x_scale.bandwidth() / 2;
+        })
+        .attr( 'y', function(d){
+            return chart_height - y_scale(d) + 15;
+        });
+});
