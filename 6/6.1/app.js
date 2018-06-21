@@ -91,16 +91,45 @@ var red_line = d3.line()
         return y_scale(d.num);
     });
 
-svg.append('path')
-    .datum(data)
-    .attr('fill', 'none')
-    .attr('stroke', '#73FF36')
-    .attr('stroke-width', 5)
-    .attr('d', line);
+var area = d3.area()
+    .defined(function(d) {
+        return d.num >= 0;
+    })
+    .x(function(d) {
+        return x_scale(d.date);
+    })
+    .y0(function(d) {
+        return y_scale.range()[0];
+    })
+    .y1(function(d) {
+        return y_scale(d.num);
+    });
+
+var red_area = d3.area()
+    .defined(function(d) {
+        return d.num >= 100;
+    })
+    .x(function(d) {
+        return x_scale(d.date);
+    })
+    .y0(function(d) {
+        return y_scale(100);
+    })
+    .y1(function(d) {
+        return y_scale(d.num);
+    });
+
 
 svg.append('path')
     .datum(data)
-    .attr('fill', 'none')
-    .attr('stroke', '#EA280C')
-    .attr('stroke-width', 5)
-    .attr('d', red_line);
+    .attr('fill', '#73FF36')
+    // .attr('stroke', '#73FF36')
+    // .attr('stroke-width', 5)
+    .attr('d', area);
+
+svg.append('path')
+    .datum(data)
+    .attr('fill', '#EA280C')
+    // .attr('stroke', '#EA280C')
+    // .attr('stroke-width', 5)
+    .attr('d', red_area);
